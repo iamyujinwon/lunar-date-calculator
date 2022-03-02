@@ -16,20 +16,24 @@ const lunarYearOfBirthday = parseInt(prompt('your Lunar birth year: '));
 const lunarMonthOfBirthday = parseInt(prompt('your Lunar birth month: '));
 const lunarDayOfBirthday = parseInt(prompt('your Lunar birth day: '));
 
-const upcomingBirthdayYear = getUpcomingLunarBirthdayYear();
-const lunarAge = upcomingBirthdayYear - lunarYearOfBirthday;
+const upcomingBirthdayYear = getUpcomingLunarBirthdayYear(lunarMonthOfBirthday, lunarDayOfBirthday);
+const lunarAge = getLunarAge();
 const daysSinceLunarNewYear = countDaysFromLunarNewYear(lunarMonthOfBirthday, lunarDayOfBirthday);
 //tuples
 const [solarMonthOfBirthday, solarDayOfBirthday] = getSolarBirthday(daysSinceLunarNewYear, startingLunarMonthInCurrentYear);
-showSolarBirthday();
 
+showSolarBirthday(solarMonthOfBirthday, solarDayOfBirthday);
 
-function getUpcomingLunarBirthdayYear() {
+function getUpcomingLunarBirthdayYear(lunarMonthOfBirthday, lunarDayOfBirthday) {
     if (lunarMonthOfBirthday == 12 && lunarDayOfBirthday > 9) {
         return currentYear + 1;
     } else {
         return currentYear;
     }
+}
+
+function getLunarAge() {
+    return upcomingBirthdayYear - lunarYearOfBirthday;
 }
 
 function countDaysFromLunarNewYear(lunarMonth, lunarDay) {
@@ -56,26 +60,29 @@ function getSolarBirthday(allDays, startingLunarMonthInCurrentYear) {
         }
     }
 
-    if (solarMonth == 12) {
-        solarMonth = 0;
-    }
-
     return [solarMonth, solarDay];
 }
 
-function showSolarBirthday() {
+function showSolarBirthday(solarMonth, solarDay) {
+    let monthOfBirthday = solarMonth;
+    let dayOfBirthday = solarDay;
+
     process.stdout.write(`\n🎂 Your ${ordinal(lunarAge)} birthday `);
 
-    if (solarMonthOfBirthday == currentMonth && solarDayOfBirthday == currentDay) {
+    if (monthOfBirthday == currentMonth && dayOfBirthday == currentDay) {
         console.log("is Today!!");
         console.log("😀😀 HAPPY BIRTHDAY! 😀😀\n")
     } else {
-        if (solarMonthOfBirthday > currentMonth && solarDayOfBirthday > currentDay) {
-            process.stdout.write("is");
-        } else {
+        if ((monthOfBirthday < currentMonth) || (monthOfBirthday == currentMonth && dayOfBirthday < currentDay)) {
             process.stdout.write("was");
-        }
-    
-        console.log(` ${monthsInString[solarMonthOfBirthday]} ${solarDayOfBirthday}, ${upcomingBirthdayYear}.\n`);
+        } else {
+            process.stdout.write("is");
+        }  
+
+        if (monthOfBirthday == 12) {
+            monthOfBirthday = 0;
+        } 
+
+        console.log(` ${monthsInString[monthOfBirthday]} ${solarDayOfBirthday}, ${upcomingBirthdayYear}.\n`);
     }
 }
