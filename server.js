@@ -12,9 +12,9 @@ const lunarDaysForEachMonthInCurrentYear = [ 30, 29, 30, 29, 30, 30, 29, 30, 29,
 
 const startingLunarMonthInCurrentYear = 1; 
 
-const lunarYearOfBirthday = parseInt(prompt('your Lunar birth year: '));
-const lunarMonthOfBirthday = parseInt(prompt('your Lunar birth month: '));
-const lunarDayOfBirthday = parseInt(prompt('your Lunar birth day: '));
+const lunarYearOfBirthday = getValidYear();
+const lunarMonthOfBirthday = getValidMonth();
+const lunarDayOfBirthday = getValidDay();
 
 const upcomingBirthdayYear = getUpcomingLunarBirthdayYear(lunarMonthOfBirthday, lunarDayOfBirthday);
 const lunarAge = getLunarAge();
@@ -24,6 +24,54 @@ const [solarMonthOfBirthday, solarDayOfBirthday] = getSolarBirthday(daysSinceLun
 
 showSolarBirthday(solarMonthOfBirthday, solarDayOfBirthday);
 
+function getValidYear() {
+    let value;
+
+    do  {
+        value = parseInt(prompt(`Enter your Lunar birth year ( 1899 < yyyy < ${currentYear} ): `));
+
+        if (isNaN(value)) {
+            console.log(`\nYEAR SHOULD BE NUMBER!!\n`);
+        } else if (value <= 1899 || value >= currentYear){
+            console.log(`\nYEAR SHOULD BE BETWEEN 1900 AND ${currentYear - 1}\n`);
+        }
+    } while(isNaN(value) || value <= 1899 || value >= currentYear);
+
+    return value;
+}
+
+function getValidMonth() {
+    let value;
+
+    do  {
+        value = parseInt(prompt(`Enter your Lunar birth month ( 0 < mm < 13 ): `));
+
+        if (isNaN(value)) {
+            console.log(`\nMONTH SHOULD BE NUMBER!!\n`);
+        } else if (value <= 0 || value >= 13){
+            console.log(`\nMONTH SHOULD BE BETWEEN 1 AND 12\n`);
+        }
+    } while(isNaN(value) || value <= 0 || value >= 13);
+
+    return value;
+}
+
+function getValidDay() {
+    let value;
+
+    do  {
+        value = parseInt(prompt(`Enter your Lunar birth day ( 0 < dd < ${lunarDaysForEachMonthInCurrentYear[lunarMonthOfBirthday - 1] + 1} ): `));
+
+        if (isNaN(value)) {
+            console.log(`\nDAY SHOULD BE NUMBER!!\n`);
+        } else if (value <= 0 || value >= lunarDaysForEachMonthInCurrentYear[lunarMonthOfBirthday - 1] + 1){
+            console.log(`\nDAY SHOULD BE BETWEEN 1 AND ${lunarDaysForEachMonthInCurrentYear[lunarMonthOfBirthday - 1] + 1}\n`);
+        }
+    } while(isNaN(value) || value <= 0 || value >= lunarDaysForEachMonthInCurrentYear[lunarMonthOfBirthday - 1] + 1);
+
+    return value;
+}
+
 function getUpcomingLunarBirthdayYear(lunarMonthOfBirthday, lunarDayOfBirthday) {
     if (lunarMonthOfBirthday == 12 && lunarDayOfBirthday > 9) {
         return currentYear + 1;
@@ -32,9 +80,12 @@ function getUpcomingLunarBirthdayYear(lunarMonthOfBirthday, lunarDayOfBirthday) 
     }
 }
 
+
 function getLunarAge() {
     return upcomingBirthdayYear - lunarYearOfBirthday;
 }
+
+module.exports = getLunarAge;
 
 function countDaysFromLunarNewYear(lunarMonth, lunarDay) {
     let days = 0;
