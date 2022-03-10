@@ -5,7 +5,6 @@ const ordinal = require('ordinal');
 const currentYear = new Date().getUTCFullYear();
 const currentMonth = new Date().getUTCMonth();
 const currentDay = new Date().getUTCDate();
-const solarDaysForEachMonthInCurrentYear = [ 31, 28,  31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 const lunarDaysForEachMonthInCurrentYear = [ 30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30 ];
 
 const startingLunarMonthInCurrentYear = 1; 
@@ -15,17 +14,24 @@ const lunarBirthday = new Date(process.argv[2]);
 const nextBirthday = getNextBirthday(lunarBirthday);
 showSolarBirthday(lunarBirthday, nextBirthday);
 
+module.exports = getNextBirthday;
+
 function getNextBirthday(lunarBirthday) {
     const birthday = new Date(lunarBirthday);
-    const lunarMonthOfBirthday = birthday.getUTCMonth() + 1; // 있는 그대로 받아야 하니까 + 1 !!
+    const lunarMonthOfBirthday = birthday.getUTCMonth() + 1; // it should be + 1 to be valid month
     const lunarDayOfBirthday = birthday.getUTCDate();
-    let solarYear = getUpcomingLunarBirthdayYear(lunarMonthOfBirthday, lunarDayOfBirthday);
+    let solarYear = currentYear;
     let solarMonth;
     let solarDay = countDaysFromLunarNewYear(lunarMonthOfBirthday, lunarDayOfBirthday);
 
+    let daysInSpecificMonth;
+
     for (solarMonth = startingLunarMonthInCurrentYear; solarMonth <= lunarMonthOfBirthday; solarMonth++) {
-        if (solarDay > solarDaysForEachMonthInCurrentYear[solarMonth]) {
-            solarDay -= solarDaysForEachMonthInCurrentYear[solarMonth];
+
+        daysInSpecificMonth = new Date(solarYear, solarMonth + 1, 0).getDate();
+
+        if (solarDay > daysInSpecificMonth) {
+            solarDay -= daysInSpecificMonth;
         } else {
             break;
         }
@@ -33,17 +39,10 @@ function getNextBirthday(lunarBirthday) {
      
     if (++solarMonth == 13) { // is not for index so we have to add 1 to make actual month
         solarMonth = 1;
+        solarYear++;
     } 
 
     return new Date(solarYear + "-" + solarMonth + "-" + solarDay);
-}
-
-function getUpcomingLunarBirthdayYear(lunarMonthOfBirthday, lunarDayOfBirthday) {
-    if (lunarMonthOfBirthday == 12 && lunarDayOfBirthday > 9) {
-        return currentYear + 1;
-    } else {
-        return currentYear;
-    }
 }
 
 function countDaysFromLunarNewYear(lunarMonth, lunarDay) {
