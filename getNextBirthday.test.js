@@ -1,3 +1,4 @@
+
 const getNextBirthday = require('./server');
 
 test('should be converted into solar birthday', () => {

@@ -1,6 +1,7 @@
-const monthsInString = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+import solarLunar from 'solarLunar';
+import ordinal from 'ordinal';
 
-const ordinal = require('ordinal');
+const monthsInString = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const currentYear = new Date().getUTCFullYear();
 const currentMonth = new Date().getUTCMonth();
@@ -9,17 +10,27 @@ const lunarDaysForEachMonthInCurrentYear = [ 30, 29, 30, 29, 30, 30, 29, 30, 29,
 
 const startingLunarMonthInCurrentYear = 1; 
 
-const lunarBirthday = new Date(process.argv[2]);
+const solarBirthday = new Date(process.argv[2]);
+const solarToLunarBirthday = solarToLunar(solarBirthday);
 
-const nextBirthday = getNextBirthday(lunarBirthday);
-showSolarBirthday(lunarBirthday, nextBirthday);
+const nextBirthday = getNextBirthday(solarToLunarBirthday);
+showSolarBirthday(solarToLunarBirthday, nextBirthday);
+
+function solarToLunar(solarBirthday) {
+    const birthdayYear = solarBirthday.getUTCFullYear();
+    const birthdayMonth = solarBirthday.getUTCMonth() + 1; 
+    const birthdayDay = solarBirthday.getUTCDate();
+
+    const solarToLunar = solarLunar.solar2lunar(birthdayYear, birthdayMonth, birthdayDay);
+
+    return new Date(solarToLunar.lYear, (solarToLunar.lMonth - 1), solarToLunar.lDay); //the month is 0-indexed
+}
 
 module.exports = getNextBirthday;
 
 function getNextBirthday(lunarBirthday) {
-    const birthday = new Date(lunarBirthday);
-    const lunarMonthOfBirthday = birthday.getUTCMonth() + 1; // it should be + 1 to be valid month
-    const lunarDayOfBirthday = birthday.getUTCDate();
+    const lunarMonthOfBirthday = lunarBirthday.getUTCMonth() + 1; // it should be + 1 to be valid month
+    const lunarDayOfBirthday = lunarBirthday.getUTCDate();
     let solarYear = currentYear;
     let solarMonth;
     let solarDay = countDaysFromLunarNewYear(lunarMonthOfBirthday, lunarDayOfBirthday);
@@ -37,12 +48,12 @@ function getNextBirthday(lunarBirthday) {
         }
     }
      
-    if (++solarMonth == 13) { // is not for index so we have to add 1 to make actual month
+    if (++solarMonth == 13) { 
         solarMonth = 1;
         solarYear++;
     } 
-
-    return new Date(solarYear + "-" + solarMonth + "-" + solarDay);
+   
+    return new Date(solarYear, (solarMonth - 1), solarDay);
 }
 
 function countDaysFromLunarNewYear(lunarMonth, lunarDay) {
