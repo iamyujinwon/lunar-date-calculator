@@ -1,19 +1,14 @@
 import solarLunar from 'solarLunar';
 import ordinal from 'ordinal';
 
-const monthsInString = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 const currentYear = new Date().getUTCFullYear();
 const currentMonth = new Date().getUTCMonth();
 const currentDay = new Date().getUTCDate();
-const lunarDaysForEachMonthInCurrentYear = [ 30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30 ];
-
-const startingLunarMonthInCurrentYear = 1; 
 
 const solarBirthday = new Date(process.argv[2]);
 const solarToLunarBirthday = solarToLunar(solarBirthday);
+const nextBirthday = lunarToSolar(solarToLunarBirthday);
 
-const nextBirthday = getNextBirthday(solarToLunarBirthday);
 showSolarBirthday(solarToLunarBirthday, nextBirthday);
 
 function solarToLunar(solarBirthday) {
@@ -26,59 +21,28 @@ function solarToLunar(solarBirthday) {
     return new Date(solarToLunar.lYear, (solarToLunar.lMonth - 1), solarToLunar.lDay); //the month is 0-indexed
 }
 
-module.exports = getNextBirthday;
+function lunarToSolar(lunarBirthday) {
+    const birthdayMonth = lunarBirthday.getUTCMonth() + 1; 
+    const birthdayDay = lunarBirthday.getUTCDate();
 
-function getNextBirthday(lunarBirthday) {
-    const lunarMonthOfBirthday = lunarBirthday.getUTCMonth() + 1; // it should be + 1 to be valid month
-    const lunarDayOfBirthday = lunarBirthday.getUTCDate();
-    let solarYear = currentYear;
-    let solarMonth;
-    let solarDay = countDaysFromLunarNewYear(lunarMonthOfBirthday, lunarDayOfBirthday);
+    let lunarToSolar = solarLunar.lunar2solar(currentYear, birthdayMonth, birthdayDay);
 
-    let daysInSpecificMonth;
-
-    for (solarMonth = startingLunarMonthInCurrentYear; solarMonth <= lunarMonthOfBirthday; solarMonth++) {
-
-        daysInSpecificMonth = new Date(solarYear, solarMonth + 1, 0).getDate();
-
-        if (solarDay > daysInSpecificMonth) {
-            solarDay -= daysInSpecificMonth;
-        } else {
-            break;
-        }
-    }
-     
-    if (++solarMonth == 13) { 
-        solarMonth = 1;
-        solarYear++;
+    if ((lunarToSolar.cMonth <= currentMonth + 1) || (lunarToSolar.cMonth == currentMonth && lunarToSolar.cDay == currentDay)) {
+        lunarToSolar = solarLunar.lunar2solar(currentYear + 1, birthdayMonth, birthdayDay);
     } 
-   
-    return new Date(solarYear, (solarMonth - 1), solarDay);
-}
 
-function countDaysFromLunarNewYear(lunarMonth, lunarDay) {
-    let days = 0;
-    for (let i = 0; i < lunarMonth; i++) {
-        if (i == lunarMonth - 1) {
-            days += lunarDay;
-        } else {
-            days += lunarDaysForEachMonthInCurrentYear[i];
-        }
-    }
-    return days;
+    return new Date(lunarToSolar.cYear, (lunarToSolar.cMonth - 1), lunarToSolar.cDay); 
 }
 
 function showSolarBirthday(lunarBirthday, nextBirthday) {
-    const birthday = new Date(lunarBirthday);
-    const upcomingBirthday = new Date(nextBirthday);
-
-    const lunarYearOfBirthday = birthday.getUTCFullYear();
-
-    const upcomingYearOfBirthday = upcomingBirthday.getUTCFullYear();
-    const upcomingMonthOfBirthday = upcomingBirthday.getUTCMonth();
-    const upcomingDayOfBirthday = upcomingBirthday.getUTCDate();
+    const lunarYearOfBirthday = lunarBirthday.getUTCFullYear();
+    const upcomingYearOfBirthday = nextBirthday.getUTCFullYear();
+    const upcomingMonthOfBirthday = nextBirthday.getUTCMonth();
+    const upcomingDayOfBirthday = nextBirthday.getUTCDate();
 
     const lunarAge = upcomingYearOfBirthday - lunarYearOfBirthday;
+
+    console.log(`\nYour lunar birthday was ${lunarBirthday.getUTCFullYear()}/${lunarBirthday.getUTCMonth() + 1}/${lunarBirthday.getUTCDate()}.`);
 
     process.stdout.write(`\n🎂 Your ${ordinal(lunarAge)} birthday `);
 
@@ -92,6 +56,6 @@ function showSolarBirthday(lunarBirthday, nextBirthday) {
             process.stdout.write("is");
         }  
 
-        console.log(` ${monthsInString[upcomingMonthOfBirthday]} ${upcomingDayOfBirthday}, ${upcomingYearOfBirthday}.\n`); 
+        console.log(` ${nextBirthday.toLocaleString('default', { month: 'long' })} ${upcomingDayOfBirthday}, ${upcomingYearOfBirthday}.\n`); 
     }
 }
