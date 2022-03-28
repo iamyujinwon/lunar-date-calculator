@@ -2,6 +2,8 @@ import solarLunar from 'solarLunar';
 
 const currentYear = new Date().getUTCFullYear();
 
+// module.exports = solarToCurrentLunar;
+
 function solarToCurrentLunar(solarYear, solarMonth, solarDay) {
     const solarToLunar = solarLunar.solar2lunar(solarYear, solarMonth, solarDay);
     const lunarToCurrentSolar = solarLunar.lunar2solar(currentYear, solarToLunar.lMonth, solarToLunar.lDay);
@@ -12,6 +14,8 @@ function solarToCurrentLunar(solarYear, solarMonth, solarDay) {
         'day': lunarToCurrentSolar.cDay
     };
 }
+
+// module.exports = lunarToCurrentLunar;
 
 function lunarToCurrentLunar(lunarYear, lunarMonth, lunarDay) {
     const currentLunarToSolar = solarLunar.lunar2solar(currentYear, lunarMonth, lunarDay);
