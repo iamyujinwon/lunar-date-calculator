@@ -1,6 +1,6 @@
 # lunar-date-calculator
 
-A 'lunar-date-calculator' is a Javascript library for converting the date in the past to the solar date in the current year.
+lunar-date-calculator is a Javascript library for converting the date in the past to the solar date in the current year.
 
 ## Installation
 
