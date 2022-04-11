@@ -34,6 +34,7 @@ From [wikipedia](https://en.wikipedia.org/wiki/Solar_calendar)
 This function converts dates two times to get the solar date in current year.
 
 First, it converts the solar date in the past to the lunar date in `solarYear`. 
+
 Next, it converts the calculated lunar date to solar date in the current year.
 
 ```javascript
