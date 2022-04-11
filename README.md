@@ -56,6 +56,6 @@ This function converts the lunar date in the past to the solar date in current y
 // convert lunar to lunar date in the current year
 const lunar2CurrentLunar = lunaDateCalculator.fromLunarDate(2019, 5, 15);
 
-//output: { year: 2022, month: 6, day: 13 }
+// output: { year: 2022, month: 6, day: 13 }
 
 ```
