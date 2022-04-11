@@ -13,13 +13,13 @@
     "start": "node server.js"
   },
   "type": "module",
-  "name": "lunar-calendar-app",
+  "name": "lunar-date-calculator",
   "version": "1.0.0",
   "description": "converts between lunar and solar dates",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamyujinwon/lunar-calendar-app.git"
+    "url": "git+https://github.com/iamyujinwon/lunar-date-calculator.git"
   },
   "keywords": [
     "lunar",
@@ -29,7 +29,7 @@
   "author": "Yujin Won",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/iamyujinwon/lunar-calendar-app/issues"
+    "url": "https://github.com/iamyujinwon/lunar-date-calculator/issues"
   },
-  "homepage": "https://github.com/iamyujinwon/lunar-calendar-app#readme"
+  "homepage": "https://github.com/iamyujinwon/lunar-date-calculator#readme"
 }
