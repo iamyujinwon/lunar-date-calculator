@@ -1,6 +1,6 @@
 # lunar-date-calculator
 
-lunar-date-calculator is a Javascript library for converting a date to the lunar date in the current year.
+A 'lunar-date-calculator' is a Javascript library for converting the date in the past to the solar date in the current year.
 
 ## Installation
 
@@ -10,27 +10,45 @@ Use 'npm' to install the package.
 npm i lunar-date-calculator
 ```
 
+## Definition
+
+### Lunar Calendar
+
+> A lunar calendar is a calendar based on the monthly cycles of the Moon's phases (synodic months, lunations), in contrast to solar calendars, whose annual cycles are based only directly on the solar year.
+from [wikipedia](https://en.wikipedia.org/wiki/Lunar_calendar)
+
+### Solar Calendar
+
+> A solar calendar is a calendar whose dates indicate the season or almost equivalently the apparent position of the Sun relative to the stars. The Gregorian calendar, widely accepted as a standard in the world, is an example of a solar calendar.
+from [wikipedia](https://en.wikipedia.org/wiki/Solar_calendar)
+
+
 ## Usage
 
-```javascript
+### fromSolarDate(solarYear, solarMonth, solarDay)
 
-import lunaDateCalculator from 'lunar-date-calculator';
+This function converts dates two times to get the solar date in current year.
+
+First, it converts the solar date in the past to the lunar date in ```bash solarYear ```. 
+Next, it converts the calculated lunar date to solar date in the current year.
+
+```javascript
 
 # convert solar to lunar date in the current year
-const solar2CurrentLunar = lunaDateCalculator.solarToCurrentLunar(2019, 4, 18);
-
-# convert lunar to lunar date in the current year
-const lunar2CurrentLunar = lunaDateCalculator.lunarToCurrentLunar(5, 15);
+const solar2CurrentLunar = lunaDateCalculator.fromSolarDate(2019, 4, 18);
+# output: { year: 2022, month: 4, day: 14 }
 
 ```
 
-output:
+### fromLunarDate(lunarYear, lunarMonth, lunarDay)
+
+This function converts the lunar date in the past to the solar date in current year.
+
 
 ```javascript
-{ year: 2022, month: 4, day: 14 }
+
+# convert lunar to lunar date in the current year
+const lunar2CurrentLunar = lunaDateCalculator.fromLunarDate(2019, 5, 15);
+# output: { year: 2022, month: 6, day: 13 }
+
 ```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
