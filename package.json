@@ -9,7 +9,27 @@
     "jest": "^27.5.1"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node server.js"
   },
-  "type": "module"
+  "type": "module",
+  "name": "lunar-calendar-app",
+  "version": "1.0.0",
+  "description": "converts between lunar and solar dates",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamyujinwon/lunar-calendar-app.git"
+  },
+  "keywords": [
+    "lunar",
+    "date",
+    "lunisolar"
+  ],
+  "author": "Yujin Won",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamyujinwon/lunar-calendar-app/issues"
+  },
+  "homepage": "https://github.com/iamyujinwon/lunar-calendar-app#readme"
 }
