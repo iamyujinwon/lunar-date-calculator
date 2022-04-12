@@ -38,6 +38,7 @@ First, it converts the solar date in the past to the lunar date in `solarYear`.
 Next, it converts the calculated lunar date to solar date in the current year.
 
 ```javascript
+import lunaDateCalculator from 'lunar-date-calculator';
 
 // convert solar to lunar date in the current year
 const solar2CurrentLunar = lunaDateCalculator.fromSolarDate(2019, 4, 18);
@@ -52,6 +53,7 @@ This function converts the lunar date in the past to the solar date in current y
 
 
 ```javascript
+import lunaDateCalculator from 'lunar-date-calculator';
 
 // convert lunar to lunar date in the current year
 const lunar2CurrentLunar = lunaDateCalculator.fromLunarDate(2019, 5, 15);
