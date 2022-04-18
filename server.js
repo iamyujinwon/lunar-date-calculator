@@ -1,4 +1,4 @@
-const solarLunar = require('solarlunar');
+import solarLunar from 'solarlunar/lib/solarlunar.min.js';
 
 const currentYear = new Date().getUTCFullYear();
 
