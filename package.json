@@ -7,7 +7,7 @@
   },
   "type": "module",
   "name": "lunar-date-calculator",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "converts between lunar and solar dates",
   "main": "server.js",
   "repository": {
