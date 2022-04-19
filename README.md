@@ -76,7 +76,7 @@ const lunarInFuture2TargetLunar = lunaDateCalculator.fromLunarDate(2007, 5, 15, 
 // output: { year: 1999, month: 6, day: 28 }
 
 // convert lunar in the past to lunar date in the target year
-const lunarInFuture2TargetLunar = lunaDateCalculator.fromLunarDate(2007, 5, 15, 2019);
+const lunarInPast2TargetLunar = lunaDateCalculator.fromLunarDate(2007, 5, 15, 2019);
 // output: { year: 2019, month: 6, day: 17 }
 
 ```
